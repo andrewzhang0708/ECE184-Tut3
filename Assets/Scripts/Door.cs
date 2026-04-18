@@ -15,12 +15,14 @@ public class Door : MonoBehaviour
 
     public void Open()
     {
-        
+        StopAllCoroutines();
+        StartCoroutine(OpenCR());
     }
 
-    public void close()
+    public void Close()
     {
-        
+        StopAllCoroutines();
+        StartCoroutine(CloseCR());
     }
 
     private IEnumerator OpenCR()
@@ -31,5 +33,15 @@ public class Door : MonoBehaviour
             yield return null;
         }
         transform.position = new Vector3(transform.position.x, closedY + openHeight, transform.position.z);
+    }
+
+    private IEnumerator CloseCR()
+    {
+        while(transform.position.y > closedY)
+        {
+            transform.position -= openSpeed * Time.deltaTime * Vector3.up;
+            yield return null;
+        }
+        transform.position = new Vector3(transform.position.x, closedY, transform.position.z);
     }
 }
